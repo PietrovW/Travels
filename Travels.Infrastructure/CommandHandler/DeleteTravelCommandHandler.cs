@@ -13,9 +13,9 @@ namespace Travels.Infrastructure.CommandHandler
 {
     public class DeleteTravelCommandHandler : IRequestHandler<DeleteTravelCommand>
     {
-        private readonly EfRepository<Travel> TravelRepository;
+        private readonly ITravelRepository TravelRepository;
         
-        public DeleteTravelCommandHandler(EfRepository<Travel> travelRepository)
+        public DeleteTravelCommandHandler(ITravelRepository travelRepository)
         {
             TravelRepository = travelRepository;
         }

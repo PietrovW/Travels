@@ -1,9 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Travels.Core.Entities;
+using Travels.Core.Interfaces;
+using Travels.Infrastructure.Data;
 using Travels.Infrastructure.Extensions;
+using Travels.Infrastructure.Repositories;
 
 namespace Travels
 {
@@ -19,7 +24,10 @@ namespace Travels
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<TravelsContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddOptions();
+            services.AddTransient<ITravelRepository, TravelRepository>();
             services.AddHttpContextAccessor();
             services.ConfigureServicesVersion();
             services.ConfigureServicesSwagger();

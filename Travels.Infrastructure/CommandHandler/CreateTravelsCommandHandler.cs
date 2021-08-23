@@ -3,6 +3,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using Travels.Core.Entities;
+using Travels.Core.Interfaces;
 using Travels.Infrastructure.Command;
 using Travels.Infrastructure.Repositories;
 
@@ -10,10 +11,10 @@ namespace Travels.Infrastructure.CommandHandler
 {
     public class CreateTravelsCommandHandler : IRequestHandler<CreateTravelsCommand, Travel>
     {
-        private readonly EfRepository<Travel> TravelRepository;
+        private readonly ITravelRepository TravelRepository;
         private readonly IMapper Mapper;
 
-        public CreateTravelsCommandHandler(EfRepository<Travel> travelRepository,
+        public CreateTravelsCommandHandler(ITravelRepository travelRepository,
             IMapper mapper)
         {
             TravelRepository = travelRepository;

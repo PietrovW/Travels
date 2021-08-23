@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Travels.Core.Domain;
 using Travels.Core.Entities;
+using Travels.Core.Interfaces;
 using Travels.Core.Specifications;
 using Travels.Infrastructure.Queries;
 using Travels.Infrastructure.Repositories;
@@ -13,8 +14,8 @@ namespace Travels.Infrastructure.QuerieHandler
 {
     public class GetAllTravelsQuerieHandler : IRequestHandler<GetAllTravelsQuerie, IList<ITravel>>
     {
-        private readonly EfRepository<Travel> TravelRepository;
-        public GetAllTravelsQuerieHandler(EfRepository<Travel> travelRepository)
+        private readonly ITravelRepository TravelRepository;
+        public GetAllTravelsQuerieHandler(ITravelRepository travelRepository)
         {
             TravelRepository = travelRepository;
         }
