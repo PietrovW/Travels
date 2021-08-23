@@ -33,7 +33,10 @@ namespace Travels
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseErrorHandler();
+            
             app.ConfigureApplicationSwagger();
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();

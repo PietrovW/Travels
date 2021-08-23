@@ -14,6 +14,6 @@ namespace Travels.Core.Entities
             Id = id;
             Created = created;
         }
-        public BaseEntity() { }
+        private BaseEntity() { }
     }
 }

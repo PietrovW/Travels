@@ -27,6 +27,5 @@ namespace Travels.Core.Entities
             EndDate = endDate;
             Destination = destination;
         }
-        private Trip() { }
     }
 }
