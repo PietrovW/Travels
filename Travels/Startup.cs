@@ -1,3 +1,5 @@
+using FluentValidation.AspNetCore;
+using MicroElements.Swashbuckle.FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +25,11 @@ namespace Travels
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(c =>
+            {
+                c.RegisterValidatorsFromAssemblyContaining<Startup>();
+                c.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
+            });
             services.AddDbContext<TravelsContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddOptions();

@@ -33,16 +33,16 @@ namespace Travels.Api.Controllers.v1_0
             return Ok(customers);
         }
 
-        [HttpGet("{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(204)]
+        [HttpGet()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetById([FromQuery] GetByIdTravelsQuerie querie)
         {
-            IList<ITravel> customers = await this._mediator.Send(new GetAllTravelsQuerie());
+            IList<ITravel> customers = await this._mediator.Send(new GetByIdTravelsQuerie() { Id = querie.Id });
             if (customers.Any())
             {
-                return NoContent();
+                return NotFound();
             }
             return Ok(customers);
         }
@@ -57,16 +57,16 @@ namespace Travels.Api.Controllers.v1_0
             return CreatedAtAction(nameof(GetById), result, result.Id);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete()]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> Delete([FromQuery] DeleteTravelCommand deleteTravelCommand)
         {
 
-           Unit result = await _mediator.Send(new DeleteTravelCommand { Id = id });
+           Unit result = await _mediator.Send(new DeleteTravelCommand { Id = deleteTravelCommand.Id });
         
             return NoContent();
         }
