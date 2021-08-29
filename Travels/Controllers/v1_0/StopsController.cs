@@ -13,9 +13,9 @@ using Travels.Infrastructure.Queries;
 
 namespace Travels.Api.Controllers.v1_0
 {
-    public class TravelController : TravelsControllerBase
+    public class StopsController : TravelsControllerBase
     {
-        public TravelController(IMediator mediator):base(mediator)
+        public StopsController(IMediator mediator) : base(mediator)
         {
 
         }
@@ -26,7 +26,7 @@ namespace Travels.Api.Controllers.v1_0
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetAllAsync(CancellationToken ct)
         {
-            IList<ITravel> customers = await this._mediator.Send(new GetAllTravelsQuerie(), ct);
+            IList<ITravel> customers = await this._mediator.Send(new GetAllTravelsQuerie(), cancellationToken:ct);
             if (customers.Any())
             {
                 return NoContent();
@@ -34,15 +34,14 @@ namespace Travels.Api.Controllers.v1_0
             return Ok(customers);
         }
 
-        
-        [HttpGet("{id}")]
+        [HttpGet()]
         [ValidateModel]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetByIdAsync(long id, CancellationToken ct)
+        public async Task<IActionResult> GetByIdAsync([FromQuery] GetByIdTravelsQuerie querie, CancellationToken ct)
         {
-            IList<ITravel> customers = await this._mediator.Send(new GetByIdTravelsQuerie() { Id = id }, cancellationToken: ct);
+            IList<ITravel> customers = await this._mediator.Send(new GetByIdTravelsQuerie() { Id = querie.Id }, cancellationToken:ct);
             if (customers.Any())
             {
                 return NotFound();
@@ -51,22 +50,18 @@ namespace Travels.Api.Controllers.v1_0
         }
 
         [HttpPut()]
-        [ValidateModel]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PutTodoItemAsync(long id,PutTravelsCommand todoItem, CancellationToken ct)
+        public async Task<IActionResult> PutAsync(PutTravelsCommand todoItem, CancellationToken ct)
         {
             if (todoItem.Id != todoItem.Id)
             {
                 return BadRequest();
             }
 
-           // _context.Entry(todoItem).State = EntityState.Modified;
+            // _context.Entry(todoItem).State = EntityState.Modified;
 
-          
+
 
             return NoContent();
         }
@@ -75,23 +70,24 @@ namespace Travels.Api.Controllers.v1_0
         [ValidateModel]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreatedAsync([FromBody] PostTravelsCommand invoiceModel, CancellationToken ct)
+        public async Task<IActionResult> PostAsync([FromBody] PostTravelsCommand invoiceModel, CancellationToken ct)
         {
             // CreateInvoiceCommand command = mapper.Map<InvoiceModel, CreateInvoiceCommand>(invoiceModel);
 
-            var result = await this._mediator.Send(invoiceModel, cancellationToken:ct);
+            var result = await this._mediator.Send(invoiceModel);
             return CreatedAtAction(nameof(GetByIdAsync), result, result.Id);
         }
 
         [HttpDelete()]
-        [ValidateModel]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete([FromQuery] DeleteTravelCommand deleteTravelCommand)
         {
 
-           Unit result = await _mediator.Send(new DeleteTravelCommand { Id = deleteTravelCommand.Id });
-        
+            Unit result = await _mediator.Send(new DeleteTravelCommand { Id = deleteTravelCommand.Id });
+
             if (result == Unit.Value)
             {
                 return NotFound();

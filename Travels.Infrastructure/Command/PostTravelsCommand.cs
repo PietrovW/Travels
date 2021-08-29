@@ -5,7 +5,7 @@ using Travels.Core.Entities;
 
 namespace Travels.Infrastructure.Command
 {
-    public interface CreateTravelsCommand : ITravel,IRequest<Travel>
+    public interface PostTravelsCommand : ITravel,IRequest<Travel>
     {
     }
 }
