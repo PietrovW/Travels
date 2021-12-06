@@ -4,9 +4,9 @@ namespace Travels.Core.Entities
 {
     public abstract class BaseEntity
     {
-        public long Id { get;  set; }
+        public long Id { get; protected set; }
 
-        public DateTimeOffset Created { get; set; }
+        public DateTimeOffset Created { get; protected set; }
 
         public BaseEntity(long id, 
             DateTimeOffset created)

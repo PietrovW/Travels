@@ -6,20 +6,20 @@ using Travels.Core.Entities;
 using Travels.Core.Interfaces;
 using Travels.Infrastructure.Command;
 
-namespace Travels.Infrastructure.CommandHandler
+namespace Travels.Core.CommandHandler
 {
-    public class PutTravelsCommandHandler : IRequestHandler<PutTravelsCommand, Travel>
+    public class PostTravelsCommandHandler : IRequestHandler<PostTravelsCommand, Travel>
     {
         private readonly ITravelRepository TravelRepository;
         private readonly IMapper Mapper;
 
-        public PutTravelsCommandHandler(ITravelRepository travelRepository,
+        public PostTravelsCommandHandler(ITravelRepository travelRepository,
             IMapper mapper)
         {
             TravelRepository = travelRepository;
             Mapper = mapper;
         }
-        public async Task<Travel> Handle(PutTravelsCommand request, CancellationToken cancellationToken)
+        public async Task<Travel> Handle(PostTravelsCommand request, CancellationToken cancellationToken)
         {
             var trave = new Travel(id: request.Id, created: request.Created, name: request.Name, description: request.Description);
             return await TravelRepository.AddAsync(trave, cancellationToken);

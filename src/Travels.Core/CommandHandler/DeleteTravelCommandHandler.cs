@@ -1,15 +1,12 @@
 ﻿using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Travels.Core.Entities;
 using Travels.Core.Interfaces;
-using Travels.Core.Specifications;
 using Travels.Infrastructure.Command;
-using Travels.Infrastructure.Extensions;
-using Travels.Infrastructure.Repositories;
 
-namespace Travels.Infrastructure.CommandHandler
+
+namespace Travels.Core.CommandHandler
 {
     public class DeleteTravelCommandHandler : IRequestHandler<DeleteTravelCommand>
     {

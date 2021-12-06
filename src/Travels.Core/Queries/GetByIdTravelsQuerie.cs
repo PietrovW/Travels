@@ -1,9 +1,8 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Travels.Core.Domain;
 
-namespace Travels.Infrastructure.Queries
+namespace Travels.Core.Queries
 {
     public class GetByIdTravelsQuerie : IRequest<IList<ITravel>>
     {
