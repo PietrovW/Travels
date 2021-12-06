@@ -7,6 +7,8 @@
     <OutputType>Exe</OutputType>
     <StartupObject>Travels.Program</StartupObject>
     <SignAssembly>true</SignAssembly>
+    <DockerfileContext>..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>

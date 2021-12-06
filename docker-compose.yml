@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  travels.api:
+    image: ${DOCKER_REGISTRY-}travelsapi
+    build:
+      context: .
+      dockerfile: src/Travels/Dockerfile
