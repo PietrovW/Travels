@@ -4,7 +4,7 @@ using Travels.Core.Domain;
 
 namespace Travels.Core.Queries
 {
-    public class GetAllTravelsQuerie : IRequest<IList<ITravel>>
+    public class GetAllTravelsQuerie : IRequest<IAsyncEnumerable<ITravel>>
     {
     }
 }

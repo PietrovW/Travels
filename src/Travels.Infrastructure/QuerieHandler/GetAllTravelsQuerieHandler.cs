@@ -10,14 +10,14 @@ using Travels.Core.Queries;
 
 namespace Travels.Infrastructure.QuerieHandler
 {
-    public class GetAllTravelsQuerieHandler : IRequestHandler<GetAllTravelsQuerie, IList<ITravel>>
+    public class GetAllTravelsQuerieHandler : IRequestHandler<GetAllTravelsQuerie, IAsyncEnumerable<ITravel>>
     {
         private readonly ITravelRepository TravelRepository;
         public GetAllTravelsQuerieHandler(ITravelRepository travelRepository)
         {
             TravelRepository = travelRepository;
         }
-        public async Task<IList<ITravel>> Handle(GetAllTravelsQuerie request, CancellationToken cancellationToken)
+        public async Task<IAsyncEnumerable<ITravel>> Handle(GetAllTravelsQuerie request, CancellationToken cancellationToken)
         {
             await TravelRepository.ListAllAsync(cancellationToken);
             return null;

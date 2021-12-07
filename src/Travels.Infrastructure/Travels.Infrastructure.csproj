@@ -24,8 +24,4 @@
     <ProjectReference Include="..\Travels.Core\Travels.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="QueriesValidator\" />
-  </ItemGroup>
-
 </Project>

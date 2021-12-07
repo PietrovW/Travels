@@ -25,8 +25,8 @@ namespace Travels.Api.Controllers.v1_0
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllAsync(CancellationToken ct)
         {
-            IList<ITravel> customers = await this._mediator.Send(new GetAllTravelsQuerie(), cancellationToken:ct);
-            if (customers.Any())
+            IAsyncEnumerable<ITravel> customers = await this._mediator.Send(new GetAllTravelsQuerie(), cancellationToken:ct);
+            if (customers!=null)
             {
                 return NoContent();
             }
