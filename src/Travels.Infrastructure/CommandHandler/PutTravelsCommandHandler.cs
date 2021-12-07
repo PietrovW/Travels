@@ -22,7 +22,8 @@ namespace Travels.Infrastructure.CommandHandler
         public async Task<Travel> Handle(PutTravelsCommand request, CancellationToken cancellationToken)
         {
             var trave = new Travel(id: request.Id, created: request.Created, name: request.Name, description: request.Description);
-            return await TravelRepository.AddAsync(trave, cancellationToken);
+            await TravelRepository.UpdateAsync(trave, cancellationToken);
+            return trave;
         }
     }
 }

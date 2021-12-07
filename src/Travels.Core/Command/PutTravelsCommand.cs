@@ -1,11 +1,16 @@
 ﻿
 using MediatR;
+using System;
 using Travels.Core.Domain;
 using Travels.Core.Entities;
 
 namespace Travels.Infrastructure.Command
 {
-    public interface PutTravelsCommand : ITravel,IRequest<Travel>
+    public class PutTravelsCommand : ITravel,IRequest<Travel>
     {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public DateTimeOffset Created { get; set; }
     }
 }
