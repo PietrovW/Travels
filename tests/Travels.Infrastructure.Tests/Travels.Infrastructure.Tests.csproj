@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="QueriesValidatorTests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Travels.Infrastructure\Travels.Infrastructure.csproj" />
   </ItemGroup>
 
