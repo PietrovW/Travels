@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore  ../../Travels.sln
+      run: dotnet restore  Travels.sln
     - name: Build
-      run: dotnet build  ../../Travels.sln --no-restore
+      run: dotnet build  Travels.sln --no-restore
     - name: Test
-      run: dotnet test  ../../Travels.sln --no-build --verbosity normal
+      run: dotnet test  Travels.sln --no-build --verbosity normal
