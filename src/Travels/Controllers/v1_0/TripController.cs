@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using Travels.Api.Attributes;
 using Travels.Api.Controllers.Base;
 using Travels.Core.Domain;
+using Travels.Core.Queries;
 using Travels.Infrastructure.Command;
-using Travels.Infrastructure.Queries;
 
 namespace Travels.Api.Controllers.v1_0
 {
@@ -41,8 +41,8 @@ namespace Travels.Api.Controllers.v1_0
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetByIdAsync([FromQuery] GetByIdTravelsQuerie querie, CancellationToken ct)
         {
-            IList<ITravel> customers = await this._mediator.Send(querie, cancellationToken:ct);
-            if (customers.Any())
+            IAsyncEnumerable<ITravel> customers = await this._mediator.Send(querie, cancellationToken:ct);
+            if (customers!=null)
             {
                 return NotFound();
             }

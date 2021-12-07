@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Travels.Core.Entities;
 using Travels.Core.Interfaces;
 using Travels.Infrastructure.Command;
+using Travels.Infrastructure.Extensions;
 
-
-namespace Travels.Core.CommandHandler
+namespace Travels.Infrastructure.CommandHandler
 {
     public class DeleteTravelCommandHandler : IRequestHandler<DeleteTravelCommand>
     {

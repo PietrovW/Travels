@@ -1,9 +1,5 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Travels.Infrastructure.Queries;
+using Travels.Core.Queries;
 
 namespace Travels.Api.Validators.v1_0
 {

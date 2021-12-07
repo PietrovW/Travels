@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Travels.Infrastructure.Command;
 
-namespace Travels.Core.CommandValidator
+namespace Travels.Infrastructure.CommandValidator
 {
     public class DeleteTravelCommandValidator : AbstractValidator<DeleteTravelCommand>
     {
