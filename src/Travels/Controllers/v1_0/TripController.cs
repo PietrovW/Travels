@@ -10,6 +10,7 @@ using Travels.Api.Controllers.Base;
 using Travels.Core.Domain;
 using Travels.Core.Queries;
 using Travels.Infrastructure.Command;
+using Travels.Infrastructure.DTO;
 
 namespace Travels.Api.Controllers.v1_0
 {
@@ -25,7 +26,7 @@ namespace Travels.Api.Controllers.v1_0
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllAsync(CancellationToken ct)
         {
-            IAsyncEnumerable<ITravel> customers = await this._mediator.Send(new GetAllTravelsQuerie(), cancellationToken:ct);
+            IEnumerable<TravelDTO> customers = await this._mediator.Send(new GetAllTravelsQuerie(), cancellationToken:ct);
             if (customers!=null)
             {
                 return NoContent();
@@ -41,12 +42,12 @@ namespace Travels.Api.Controllers.v1_0
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetByIdAsync([FromQuery] GetByIdTravelsQuerie querie, CancellationToken ct)
         {
-            IAsyncEnumerable<ITravel> customers = await this._mediator.Send(querie, cancellationToken:ct);
-            if (customers!=null)
+            TravelDTO customer = await this._mediator.Send(querie, cancellationToken:ct);
+            if (customer!=null)
             {
                 return NotFound();
             }
-            return Ok(customers);
+            return Ok(customer);
         }
 
         [HttpPut()]

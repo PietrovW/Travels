@@ -19,12 +19,12 @@ namespace Travels.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IReadOnlyList<T>> ListAllAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<T>> ListAllAsync(CancellationToken cancellationToken = default)
         {
             return await _dbContext.Set<T>().ToListAsync(cancellationToken);
         }
 
-        public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<T>> ListAsync(ISpecification<T> spec, CancellationToken cancellationToken = default)
         {
             var specificationResult = ApplySpecification(spec);
             return await specificationResult.ToListAsync(cancellationToken);

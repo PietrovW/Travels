@@ -7,9 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Travels.Api.Attributes;
 using Travels.Api.Controllers.Base;
-using Travels.Core.Domain;
 using Travels.Core.Queries;
 using Travels.Infrastructure.Command;
+using Travels.Infrastructure.DTO;
 
 namespace Travels.Api.Controllers.v1_0
 {
@@ -21,33 +21,27 @@ namespace Travels.Api.Controllers.v1_0
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAllAsync(CancellationToken ct)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<TravelDTO>>> GetAllAsync(CancellationToken ct)
         {
-            IAsyncEnumerable<ITravel> customers = await this._mediator.Send(new GetAllTravelsQuerie(), ct);
-            if (customers!=null)
+            IEnumerable<TravelDTO> customers = await this._mediator.Send(new GetAllTravelsQuerie(), ct);
+            if (customers==null)
             {
                 return NoContent();
             }
             return Ok(customers);
         }
-
         
         [HttpGet("{id}")]
-        [ValidateModel]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(500)]
-        public async Task<IActionResult> GetByIdAsync(long id, CancellationToken ct)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<TravelDTO> GetByIdAsync([FromQuery] long id)
         {
-            IAsyncEnumerable<ITravel> customers = await this._mediator.Send(new GetByIdTravelsQuerie() { Id = id }, cancellationToken: ct);
-            if (customers != null)
-            {
-                return NotFound();
-            }
-            return Ok(customers);
+            TravelDTO customers = await this._mediator.Send(new GetByIdTravelsQuerie() { Id = id },  CancellationToken.None);
+            return customers;
         }
 
         [HttpPut()]
@@ -65,22 +59,16 @@ namespace Travels.Api.Controllers.v1_0
             }
 
            // _context.Entry(todoItem).State = EntityState.Modified;
-
-          
-
             return NoContent();
         }
 
         [HttpPost]
-        [ValidateModel]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreatedAsync([FromBody] PostTravelsCommand invoiceModel, CancellationToken ct)
+        public async Task<ActionResult<TravelDTO>> CreatedAsync([FromBody] PostTravelsCommand invoiceModel)
         {
-            // CreateInvoiceCommand command = mapper.Map<InvoiceModel, CreateInvoiceCommand>(invoiceModel);
-
-            var result = await this._mediator.Send(invoiceModel, cancellationToken:ct);
-            return CreatedAtAction(nameof(GetByIdAsync), result, result.Id);
+            var result = await this._mediator.Send(invoiceModel, CancellationToken.None);
+            return CreatedAtAction(nameof(GetByIdAsync), "Travel", new { id = result.Id }, result);
         }
 
         [HttpDelete()]

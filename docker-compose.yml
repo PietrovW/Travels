@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+  postgres_db:
+        container_name: postgres_db
+  
+  pgadmin:
+        container_name: pgadmin
+
   travels.api:
     image: ${DOCKER_REGISTRY-}travelsapi
     build:

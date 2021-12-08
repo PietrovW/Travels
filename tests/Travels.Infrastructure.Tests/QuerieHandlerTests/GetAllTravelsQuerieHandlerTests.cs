@@ -1,9 +1,11 @@
-﻿using Moq;
+﻿using AutoMapper;
+using Moq;
 using NUnit.Framework;
 using System.Threading;
 using System.Threading.Tasks;
 using Travels.Core.Interfaces;
 using Travels.Core.Queries;
+using Travels.Infrastructure.Profiles;
 using Travels.Infrastructure.QuerieHandler;
 
 namespace Travels.Infrastructure.Tests.QuerieHandlerTests
@@ -15,8 +17,12 @@ namespace Travels.Infrastructure.Tests.QuerieHandlerTests
         {
             //Arange
             var _travelRepositoryMock = new Mock<ITravelRepository>();
+            var config = new MapperConfiguration(configuration =>
+            {
+                configuration.AddMaps(typeof(AutoMapperProfile).Assembly);
+            });
 
-            var handler = new GetAllTravelsQuerieHandler(_travelRepositoryMock.Object);
+            var handler = new GetAllTravelsQuerieHandler(_travelRepositoryMock.Object, config.CreateMapper());
 
             //Act
             await handler.Handle(new GetAllTravelsQuerie(), CancellationToken.None);

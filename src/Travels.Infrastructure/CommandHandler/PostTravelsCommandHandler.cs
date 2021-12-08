@@ -5,24 +5,26 @@ using System.Threading.Tasks;
 using Travels.Core.Entities;
 using Travels.Core.Interfaces;
 using Travels.Infrastructure.Command;
+using Travels.Infrastructure.DTO;
 
 namespace Travels.Infrastructure.CommandHandler
 {
-    public class PostTravelsCommandHandler : IRequestHandler<PostTravelsCommand, Travel>
+    public class PostTravelsCommandHandler : IRequestHandler<PostTravelsCommand, TravelDTO>
     {
         private readonly ITravelRepository TravelRepository;
-        private readonly IMapper Mapper;
+        private readonly IMapper _mapper;
 
         public PostTravelsCommandHandler(ITravelRepository travelRepository,
             IMapper mapper)
         {
             TravelRepository = travelRepository;
-            Mapper = mapper;
+            _mapper = mapper;
         }
-        public async Task<Travel> Handle(PostTravelsCommand request, CancellationToken cancellationToken)
+        public async Task<TravelDTO> Handle(PostTravelsCommand request, CancellationToken cancellationToken)
         {
             var trave = new Travel(id: request.Id, created: request.Created, name: request.Name, description: request.Description);
-            return await TravelRepository.AddAsync(trave, cancellationToken);
+           await TravelRepository.AddAsync(trave, cancellationToken);
+            return _mapper.Map<TravelDTO>(trave);
         }
     }
 }

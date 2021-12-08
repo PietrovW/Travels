@@ -1,24 +1,28 @@
-﻿using MediatR;
-using System.Collections.Generic;
+﻿using AutoMapper;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using Travels.Core.Domain;
+using Travels.Core.Entities;
 using Travels.Core.Interfaces;
 using Travels.Core.Queries;
+using Travels.Infrastructure.DTO;
+using Travels.Infrastructure.Extensions;
 
 namespace Travels.Infrastructure.QuerieHandler
 {
-    public class GetByIdTravelsQuerieHandler : IRequestHandler<GetByIdTravelsQuerie, IAsyncEnumerable<ITravel>>
+    public class GetByIdTravelsQuerieHandler : IRequestHandler<GetByIdTravelsQuerie, TravelDTO>
     {
-        private readonly ITravelRepository TravelRepository;
-        public GetByIdTravelsQuerieHandler(ITravelRepository travelRepository)
+        private readonly ITravelRepository _travelRepository;
+        private readonly IMapper _mapper;
+        public GetByIdTravelsQuerieHandler(ITravelRepository travelRepository,
+            IMapper mapper)
         {
-            TravelRepository = travelRepository;
+            _travelRepository = travelRepository;
+            _mapper = mapper;
         }
-        public async Task<IAsyncEnumerable<ITravel>> Handle(GetByIdTravelsQuerie request, CancellationToken cancellationToken)
+        public async Task<TravelDTO> Handle(GetByIdTravelsQuerie request, CancellationToken cancellationToken)
         {
-            await TravelRepository.ListAllAsync(cancellationToken);
-            return null;
+            return _mapper.Map<TravelDTO>(await _travelRepository.FirstAsync(QuerySpecificationExtensions.Criteria<Travel>(x => x.Id == request.Id), cancellationToken));
         }
     }
 }
