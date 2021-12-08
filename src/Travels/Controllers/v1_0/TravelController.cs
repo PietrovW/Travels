@@ -34,14 +34,14 @@ namespace Travels.Api.Controllers.v1_0
             return Ok(customers);
         }
         
-        [HttpGet("{id}")]
+        [HttpGet("{id}" ,Name = "GetPage")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<TravelDTO> GetByIdAsync([FromQuery] long id)
+        public async Task<IActionResult> GetByIdAsync(long id)
         {
             TravelDTO customers = await this._mediator.Send(new GetByIdTravelsQuerie() { Id = id },  CancellationToken.None);
-            return customers;
+            return Ok(customers);
         }
 
         [HttpPut()]
@@ -63,12 +63,13 @@ namespace Travels.Api.Controllers.v1_0
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TravelDTO))]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<TravelDTO>> CreatedAsync([FromBody] PostTravelsCommand invoiceModel)
+        public async Task<IActionResult> CreatedAsync([FromBody] PostTravelsCommand invoiceModel)
         {
-            var result = await this._mediator.Send(invoiceModel, CancellationToken.None);
-            return CreatedAtAction(nameof(GetByIdAsync), "Travel", new { id = result.Id }, result);
+            TravelDTO result = await this._mediator.Send(invoiceModel, CancellationToken.None);
+            return CreatedAtRoute("GetPage", new { id = result.Id }, invoiceModel);
         }
 
         [HttpDelete()]

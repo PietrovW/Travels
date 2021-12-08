@@ -25,11 +25,16 @@ namespace Travels
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddFluentValidation(c =>
+            services.AddControllers(options =>
+            {
+                options.SuppressAsyncSuffixInActionNames = false;
+            })
+                .AddFluentValidation(c =>
             {
                 c.RegisterValidatorsFromAssemblyContaining<Startup>();
                 c.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
-            });
+            })
+                ;
             services.AddDbContext<TravelsContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddOptions();
