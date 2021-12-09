@@ -29,9 +29,10 @@ namespace Travels.Infrastructure.Extensions
                 c.SpecUrl = "/swagger/v1/swagger.json";
                
             });
-            app.UseSwaggerUI(c =>
+           
+            app.UseSwaggerUI(options =>
             {
-                c.SwaggerEndpoint("v1/swagger.json", "My API V1");
+                options.SwaggerEndpoint("v1/swagger.json", "My API V1");
             });
 
             return app;

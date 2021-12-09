@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
-using Travels.Api.Attributes;
 using Travels.Api.Controllers.Base;
 using Travels.Core.Queries;
 using Travels.Infrastructure.Command;
@@ -57,13 +57,12 @@ namespace Travels.Api.Controllers.v1_0
                 return BadRequest();
             }
 
-           // _context.Entry(todoItem).State = EntityState.Modified;
             return NoContent();
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TravelDTO))]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TravelDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreatedAsync([FromBody] PostTravelsCommand invoiceModel)
         {
