@@ -22,7 +22,7 @@ namespace Travels.Core.Entities
             int daysCount, 
             DateTimeOffset startDate,
             DateTimeOffset endDate,
-            string destination) : base(id, created)
+            string destination) : base(created)
         {
             CountryID = countryID;
             DaysCount = daysCount;

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Travels.Api.Attributes;
@@ -13,6 +12,7 @@ using Travels.Infrastructure.DTO;
 
 namespace Travels.Api.Controllers.v1_0
 {
+    [ApiVersion("1.0")]
     public class TravelController : TravelsControllerBase
     {
         public TravelController(IMediator mediator):base(mediator)
@@ -45,7 +45,6 @@ namespace Travels.Api.Controllers.v1_0
         }
 
         [HttpPut()]
-        [ValidateModel]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -73,7 +72,6 @@ namespace Travels.Api.Controllers.v1_0
         }
 
         [HttpDelete()]
-        [ValidateModel]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromQuery] DeleteTravelCommand deleteTravelCommand)

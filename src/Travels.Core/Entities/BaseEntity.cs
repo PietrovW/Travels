@@ -8,10 +8,10 @@ namespace Travels.Core.Entities
 
         public DateTimeOffset Created { get; protected set; }
 
-        public BaseEntity(long id, 
+        public BaseEntity( 
             DateTimeOffset created)
         {
-            Id = id;
+            
             Created = created;
         }
         private BaseEntity() { }

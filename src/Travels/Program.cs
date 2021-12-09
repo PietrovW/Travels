@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System;
 using Travels.Api.Extensions;
 
 namespace Travels
@@ -9,7 +10,14 @@ namespace Travels
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().MigrateDatabase().Run();
+            try
+            {
+                CreateHostBuilder(args).Build().MigrateDatabase().Run();
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

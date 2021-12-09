@@ -14,7 +14,7 @@ namespace Travels.Core.Entities
              string name,
              long latitude,
              long longitude,
-             int order) : base(id, created)
+             int order) : base(created)
         {
             Name = name;
             Latitude = latitude;

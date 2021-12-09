@@ -22,7 +22,7 @@ namespace Travels.Infrastructure.CommandHandler
         }
         public async Task<StopsDTO> Handle(PostStopsCommand request, CancellationToken cancellationToken)
         {
-            var trave = new Travel(id: request.Id, created: request.Created, name: request.Name, description: request.Description);
+            var trave = new Travel(created: request.Created, name: request.Name, description: request.Description);
             await TravelRepository.AddAsync(trave, cancellationToken);
             return _mapper.Map<StopsDTO>(trave);
         }

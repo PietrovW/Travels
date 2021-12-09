@@ -1,6 +1,11 @@
 ﻿using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace Travels.Infrastructure.Extensions
 {
@@ -8,28 +13,7 @@ namespace Travels.Infrastructure.Extensions
     {
         public static IServiceCollection ConfigureServicesSwagger(this IServiceCollection services)
         {
-            //services.AddSwaggerGen(options =>
-            //{
-            //    options.SwaggerDoc("WebAPI", new OpenApiInfo
-            //    {
-            //        Title = "Movies API",
-            //        Description = "This is a Web API for Movies operations",
-            //        TermsOfService = new Uri("https://udemy.com/user/felipegaviln/"),
-            //        License = new OpenApiLicense()
-            //        {
-            //            Name = "MIT"
-            //        },
-            //        Contact = new OpenApiContact()
-            //        {
-            //            Name = "Felipe Gavilán",
-            //            Email = "felipe_gavilan887@hotmail.com",
-            //            Url = new Uri("https://gavilan.blog/")
-            //        }
-            //    });
-            //   // options.EnableAnnotations();
-            //});
-
-            services.AddSwaggerGen();
+            
             services.AddFluentValidationRulesToSwagger();
             services.AddSwaggerGenNewtonsoftSupport();
             return services;
@@ -37,11 +21,32 @@ namespace Travels.Infrastructure.Extensions
         
         public static IApplicationBuilder ConfigureApplicationSwagger(this IApplicationBuilder app)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
+            app.UseReDoc(c =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Travels v1");
+                c.PathInMiddlePanel();
+                c.OnlyRequiredInSamples();
+                c.DocumentTitle = "REDOC API Documentation";
+                c.SpecUrl = "/swagger/v1/swagger.json";
+               
             });
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("v1/swagger.json", "My API V1");
+            });
+
+            //app.UseSwagger(c =>
+            //{
+            //    c.SerializeAsV2 = true;
+            //    c.PreSerializeFilters.Add((swagger, httpReq) =>
+            //    {
+            //        swagger.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
+            //    });
+            //});
+            //app.UseSwaggerUI(options =>
+            //{
+            //    options.SwaggerEndpoint("v1/swagger.json", "My API V1");
+            //    //      options.SwaggerEndpoint("/swagger/1.0/swagger.json", "Travels v1");
+            //});
             return app;
         }
     }

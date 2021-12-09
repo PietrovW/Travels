@@ -29,7 +29,7 @@ namespace Travels.Infrastructure.Tests.CommandHandlerTests
             var handler = new PostTravelsCommandHandler(_travelRepositoryMock.Object, config.CreateMapper());
 
             //Act
-            await handler.Handle(new PostTravelsCommand() { Id=1, Created= DateTimeOffset.UtcNow, Name="test" }, CancellationToken.None);
+            await handler.Handle(new PostTravelsCommand() { Created= DateTimeOffset.UtcNow, Name="test" }, CancellationToken.None);
 
             //Asert
             _travelRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Travel>(), CancellationToken.None), Times.Once);

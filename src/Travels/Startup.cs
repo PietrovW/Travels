@@ -2,10 +2,15 @@ using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Reflection;
 using Travels.Core.Entities;
 using Travels.Core.Interfaces;
 using Travels.Infrastructure.Data;
@@ -35,11 +40,19 @@ namespace Travels
                 c.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
             })
                 ;
+
             services.AddDbContext<TravelsContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddOptions();
             services.AddTransient<ITravelRepository, TravelRepository>();
             services.AddHttpContextAccessor();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
             services.ConfigureServicesVersion();
             services.ConfigureServicesSwagger();
             services.ConfigureServicesMediator();
@@ -64,6 +77,7 @@ namespace Travels
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapSwagger();
                 endpoints.MapControllers();
             });
         }

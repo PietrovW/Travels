@@ -11,11 +11,10 @@ namespace Travels.Core.Entities
 
         public IEnumerable<Trip> Trips { get; private set; }
 
-        public Travel(long id,
-             DateTimeOffset created,
+        public Travel(DateTimeOffset created,
             string name,
             string description)
-            : base(id, created)
+            : base(created)
         {
             Name = name;
             Description = description;

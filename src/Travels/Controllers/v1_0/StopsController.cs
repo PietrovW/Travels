@@ -14,6 +14,7 @@ using Travels.Infrastructure.DTO;
 
 namespace Travels.Api.Controllers.v1_0
 {
+    [ApiVersion("1.0")]
     public class StopsController : TravelsControllerBase
     {
         public StopsController(IMediator mediator) : base(mediator)
