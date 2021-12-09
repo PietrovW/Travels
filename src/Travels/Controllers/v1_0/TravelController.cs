@@ -34,7 +34,7 @@ namespace Travels.Api.Controllers.v1_0
             return Ok(customers);
         }
         
-        [HttpGet("{id}" ,Name = "GetPage")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -68,7 +68,7 @@ namespace Travels.Api.Controllers.v1_0
         public async Task<IActionResult> CreatedAsync([FromBody] PostTravelsCommand invoiceModel)
         {
             TravelDTO result = await this._mediator.Send(invoiceModel, CancellationToken.None);
-            return CreatedAtRoute("GetPage", new { id = result.Id }, invoiceModel);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = result.Id }, invoiceModel);
         }
 
         [HttpDelete()]

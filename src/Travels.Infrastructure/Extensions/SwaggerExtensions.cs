@@ -34,19 +34,6 @@ namespace Travels.Infrastructure.Extensions
                 c.SwaggerEndpoint("v1/swagger.json", "My API V1");
             });
 
-            //app.UseSwagger(c =>
-            //{
-            //    c.SerializeAsV2 = true;
-            //    c.PreSerializeFilters.Add((swagger, httpReq) =>
-            //    {
-            //        swagger.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
-            //    });
-            //});
-            //app.UseSwaggerUI(options =>
-            //{
-            //    options.SwaggerEndpoint("v1/swagger.json", "My API V1");
-            //    //      options.SwaggerEndpoint("/swagger/1.0/swagger.json", "Travels v1");
-            //});
             return app;
         }
     }

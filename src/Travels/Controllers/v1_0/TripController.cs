@@ -5,9 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Travels.Api.Attributes;
 using Travels.Api.Controllers.Base;
-using Travels.Core.Domain;
 using Travels.Core.Queries;
 using Travels.Infrastructure.Command;
 using Travels.Infrastructure.DTO;
@@ -36,8 +34,7 @@ namespace Travels.Api.Controllers.v1_0
         }
 
 
-        [HttpGet()]
-        [ValidateModel]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(500)]
@@ -52,7 +49,6 @@ namespace Travels.Api.Controllers.v1_0
         }
 
         [HttpPut()]
-        [ValidateModel]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutAsync([FromBody] PutTravelsCommand todoItem, CancellationToken ct)
@@ -63,22 +59,16 @@ namespace Travels.Api.Controllers.v1_0
             }
 
             // _context.Entry(todoItem).State = EntityState.Modified;
-
-
-
             return NoContent();
         }
 
         [HttpPost]
-        [ValidateModel]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> PostAsync([FromBody] PostTravelsCommand invoiceModel, CancellationToken ct)
         {
-            // CreateInvoiceCommand command = mapper.Map<InvoiceModel, CreateInvoiceCommand>(invoiceModel);
-
             var result = await this._mediator.Send(invoiceModel, cancellationToken:ct);
-            return CreatedAtAction(nameof(GetByIdAsync), result, result.Id);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = result.Id }, result);
         }
 
         [HttpDelete()]

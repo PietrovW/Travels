@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Travels.Api.Controllers.Base
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public abstract class TravelsControllerBase : Controller
     {
         internal readonly IMediator _mediator;

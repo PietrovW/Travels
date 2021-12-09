@@ -36,8 +36,7 @@ namespace Travels.Api.Controllers.v1_0
             return Ok(customers);
         }
 
-        [HttpGet()]
-        [ValidateModel]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(500)]
@@ -61,21 +60,14 @@ namespace Travels.Api.Controllers.v1_0
                 return BadRequest();
             }
 
-            // _context.Entry(todoItem).State = EntityState.Modified;
-
-
-
             return NoContent();
         }
 
         [HttpPost]
-        [ValidateModel]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PostAsync([FromBody] PostTravelsCommand invoiceModel, CancellationToken ct)
         {
-            // CreateInvoiceCommand command = mapper.Map<InvoiceModel, CreateInvoiceCommand>(invoiceModel);
-
             var result = await this._mediator.Send(invoiceModel);
             return CreatedAtAction(nameof(GetByIdAsync), result, result.Id);
         }
