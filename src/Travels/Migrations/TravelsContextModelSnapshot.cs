@@ -2,31 +2,33 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Travels.Infrastructure.Data;
 
-namespace Travels.Infrastructure.Migrations
+#nullable disable
+
+namespace Travels.Api.Migrations
 {
     [DbContext(typeof(TravelsContext))]
-    [Migration("20210823225340_InitialCreate")]
-    partial class InitialCreate
+    partial class TravelsContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.9")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Travels.Core.Entities.Stops", b =>
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Travels.Application.Entities.Stops", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
@@ -53,12 +55,13 @@ namespace Travels.Infrastructure.Migrations
                     b.ToTable("Stops");
                 });
 
-            modelBuilder.Entity("Travels.Core.Entities.Travel", b =>
+            modelBuilder.Entity("Travels.Application.Entities.Travel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
@@ -76,12 +79,13 @@ namespace Travels.Infrastructure.Migrations
                     b.ToTable("Travels");
                 });
 
-            modelBuilder.Entity("Travels.Core.Entities.Trip", b =>
+            modelBuilder.Entity("Travels.Application.Entities.Trip", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<int>("CountryID")
                         .HasColumnType("integer");
@@ -113,16 +117,16 @@ namespace Travels.Infrastructure.Migrations
                     b.ToTable("Trips");
                 });
 
-            modelBuilder.Entity("Travels.Core.Entities.Stops", b =>
+            modelBuilder.Entity("Travels.Application.Entities.Stops", b =>
                 {
-                    b.HasOne("Travels.Core.Entities.Trip", null)
+                    b.HasOne("Travels.Application.Entities.Trip", null)
                         .WithMany("Stops")
                         .HasForeignKey("TripId");
                 });
 
-            modelBuilder.Entity("Travels.Core.Entities.Trip", b =>
+            modelBuilder.Entity("Travels.Application.Entities.Trip", b =>
                 {
-                    b.HasOne("Travels.Core.Entities.Travel", "Travel")
+                    b.HasOne("Travels.Application.Entities.Travel", "Travel")
                         .WithMany("Trips")
                         .HasForeignKey("TravelId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -130,12 +134,12 @@ namespace Travels.Infrastructure.Migrations
                     b.Navigation("Travel");
                 });
 
-            modelBuilder.Entity("Travels.Core.Entities.Travel", b =>
+            modelBuilder.Entity("Travels.Application.Entities.Travel", b =>
                 {
                     b.Navigation("Trips");
                 });
 
-            modelBuilder.Entity("Travels.Core.Entities.Trip", b =>
+            modelBuilder.Entity("Travels.Application.Entities.Trip", b =>
                 {
                     b.Navigation("Stops");
                 });
