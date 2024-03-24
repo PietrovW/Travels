@@ -33,12 +33,12 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
     });
 });
 builder.Configuration.AddEnvironmentVariables(prefix: "Travels_");
-builder.Services.AddApiVersioning(setup =>
-{
-    setup.DefaultApiVersion = new ApiVersion(1, 0);
-    setup.AssumeDefaultVersionWhenUnspecified = true;
-    setup.ReportApiVersions = true;
-});
+//builder.Services.AddApiVersioning(setup =>
+//{
+//    setup.DefaultApiVersion = new ApiVersion(1, 0);
+//    setup.AssumeDefaultVersionWhenUnspecified = true;
+//    setup.ReportApiVersions = true;
+//});
 ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddDbContext<TravelsContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Travels.Api")));
