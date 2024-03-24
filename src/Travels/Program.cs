@@ -1,35 +1,57 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
+using Oakton;
 using Travels.Api.Extensions;
+using Travels.Api.Middleware;
+using Travels.Infrastructure;
+using Travels.Infrastructure.Data;
+using Travels.Infrastructure.Extensions;
+using Wolverine;
+using Wolverine.FluentValidation;
+var builder = WebApplication.CreateSlimBuilder(args);
 
-namespace Travels
+builder.Configuration.AddEnvironmentVariables(prefix: "Travels_");
+ConfigurationManager configuration = builder.Configuration;
+builder.Services.AddControllers(options =>
+            {
+                options.SuppressAsyncSuffixInActionNames = false;
+            });
+builder.Services.AddDbContext<TravelsContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddOptions();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.ConfigureServicesVersion();
+builder.Services.ConfigureServicesSwagger();
+builder.Services.ConfigureInfrastructureServices();
+builder.Host.UseWolverine(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            try
-            {
-                CreateHostBuilder(args).Build().MigrateDatabase().Run();
-            }
-            catch(Exception ex)
-            {
+    options.Discovery.IncludeAssembly(typeof(Travels.Application.Extension).Assembly);
+    options.Discovery.IncludeAssembly(typeof(Travels.Infrastructure.Extension).Assembly);
+    options.Discovery.IncludeAssembly(typeof(Travels.Domain.Extension).Assembly);
 
-            }
-        }
+    options.UseFluentValidation();
+    options.UseFluentValidation(RegistrationBehavior.ExplicitRegistration);
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostingContext, config) =>
-                {
-                    config.AddEnvironmentVariables();
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
-            ;
-    }
+var app = builder.Build();
+app.UseMiddleware<ValidationExceptionMiddleware>();
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
 }
+app.UseErrorHandler();
+app.ConfigureApplicationSwagger();
+
+
+//using (var scope = app.Services.CreateScope())
+//{
+//    var db = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MercuriusContext>>();
+//    var datebase = await db.CreateDbContextAsync();
+//    await MercuriusContext.InitializeAsync(datebase);
+//}
+return await app.RunOaktonCommands(args);

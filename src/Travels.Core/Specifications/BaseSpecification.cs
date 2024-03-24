@@ -1,59 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Travels.Core.Entities;
-using Travels.Core.Interfaces;
+using Travels.Application.Entities;
+using Travels.Application.Interfaces;
 
-namespace Travels.Core.Specifications
+namespace Travels.Application.Specifications;
+
+public class BaseSpecification<T> : ISpecification<T> where T : BaseEntity,IAggregateRoot
 {
-    public class BaseSpecification<T> : ISpecification<T> where T : BaseEntity,IAggregateRoot
+    public BaseSpecification(Expression<Func<T, bool>> criteria)
     {
-        public BaseSpecification(Expression<Func<T, bool>> criteria)
-        {
-            Criteria = criteria;
-        }
-        public Expression<Func<T, bool>> Criteria { get; }
-        public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
-        public List<string> IncludeStrings { get; } = new List<string>();
+        Criteria = criteria;
+    }
+    public Expression<Func<T, bool>> Criteria { get; }
+    public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
+    public List<string> IncludeStrings { get; } = new List<string>();
 
-        public Expression<Func<T, object>> OrderBy { get; private set; }
-        public Expression<Func<T, object>> OrderByDescending { get; private set; }
-        public Expression<Func<T, object>> GroupBy { get; private set; }
-        public int Take { get; private set; }
-        public int Skip { get; private set; }
-        public bool IsPagingEnabled { get; private set; } = false;
+    public Expression<Func<T, object>> OrderBy { get; private set; }
+    public Expression<Func<T, object>> OrderByDescending { get; private set; }
+    public Expression<Func<T, object>> GroupBy { get; private set; }
+    public int Take { get; private set; }
+    public int Skip { get; private set; }
+    public bool IsPagingEnabled { get; private set; } = false;
 
 
-        protected virtual void AddInclude(string includeString)
-        {
-            IncludeStrings.Add(includeString);
-        }
+    protected virtual void AddInclude(string includeString)
+    {
+        IncludeStrings.Add(includeString);
+    }
 
-        protected virtual void AddInclude(Expression<Func<T, object>> includeExpression)
-        {
-            Includes.Add(includeExpression);
-        }
+    protected virtual void AddInclude(Expression<Func<T, object>> includeExpression)
+    {
+        Includes.Add(includeExpression);
+    }
 
-        protected virtual void ApplyPaging(int skip, int take)
-        {
-            Skip = skip;
-            Take = take;
-            IsPagingEnabled = true;
-        }
+    protected virtual void ApplyPaging(int skip, int take)
+    {
+        Skip = skip;
+        Take = take;
+        IsPagingEnabled = true;
+    }
 
-        protected virtual void ApplyOrderBy(Expression<Func<T, object>> orderByExpression)
-        {
-            OrderBy = orderByExpression;
-        }
+    protected virtual void ApplyOrderBy(Expression<Func<T, object>> orderByExpression)
+    {
+        OrderBy = orderByExpression;
+    }
 
-        protected virtual void ApplyOrderByDescending(Expression<Func<T, object>> orderByDescendingExpression)
-        {
-            OrderByDescending = orderByDescendingExpression;
-        }
+    protected virtual void ApplyOrderByDescending(Expression<Func<T, object>> orderByDescendingExpression)
+    {
+        OrderByDescending = orderByDescendingExpression;
+    }
 
-        protected virtual void ApplyGroupBy(Expression<Func<T, object>> groupByExpression)
-        {
-            GroupBy = groupByExpression;
-        }
+    protected virtual void ApplyGroupBy(Expression<Func<T, object>> groupByExpression)
+    {
+        GroupBy = groupByExpression;
     }
 }

@@ -2,28 +2,26 @@
 using NUnit.Framework;
 using System.Threading;
 using System.Threading.Tasks;
-using Travels.Core.Entities;
-using Travels.Core.Interfaces;
-using Travels.Infrastructure.Command;
-using Travels.Infrastructure.CommandHandler;
+using Travels.Application.Entities;
+using Travels.Application.Interfaces;
+using Travels.Domain.Travel.V1.Commands;
 
-namespace Travels.Infrastructure.Tests.CommandHandlerTests
+namespace Travels.Infrastructure.Tests.CommandHandlerTests;
+
+internal class DeleteTravelCommandHandlerTests
 {
-    internal class DeleteTravelCommandHandlerTests
+    [Test]
+    public async Task DeleteTravelCommand_CustomerDataUpdatedOnDatabase()
     {
-        [Test]
-        public async Task DeleteTravelCommand_CustomerDataUpdatedOnDatabase()
-        {
-            //Arange
-            var _travelRepositoryMock = new Mock<ITravelRepository>();
+        //Arange
+        var _travelRepositoryMock = new Mock<ITravelRepository>();
 
-            var handler = new DeleteTravelCommandHandler(_travelRepositoryMock.Object);
+        var handler = new DeleteTravelCommandHandler(_travelRepositoryMock.Object);
 
-            //Act
-            await handler.Handle(new DeleteTravelCommand() { Id = 1}, CancellationToken.None);
+        //Act
+        await handler.Handle(new DeleteTravelCommand() { Id = 1}, CancellationToken.None);
 
-            //Asert
-            _travelRepositoryMock.Verify(x => x.DeleteAsync(It.IsAny<Travel>(), CancellationToken.None), Times.Once);
-        }
+        //Asert
+        _travelRepositoryMock.Verify(x => x.DeleteAsync(It.IsAny<Travel>(), CancellationToken.None), Times.Once);
     }
 }

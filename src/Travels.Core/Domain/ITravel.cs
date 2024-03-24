@@ -1,12 +1,10 @@
 ﻿using System;
+namespace Travels.Application.Domain;
 
-namespace Travels.Core.Domain
+public interface ITravel
 {
-    public interface ITravel
-    {
-        long Id { get; set; }
-        string Name { get; set; }
-        string Description { get; set; }
-        DateTimeOffset Created { get; set; }
-    }
+    long Id { get; set; }
+    string Name { get; set; }
+    string Description { get; set; }
+    DateTimeOffset Created { get; set; }
 }

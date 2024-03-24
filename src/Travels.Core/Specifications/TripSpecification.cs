@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Travels.Core.Entities;
+using Travels.Application.Entities;
 
-namespace Travels.Core.Specifications
+namespace Travels.Application.Specifications;
+
+public class TripSpecification : BaseSpecification<Trip>
 {
-    public sealed class TripSpecification : BaseSpecification<Trip>
+    public TripSpecification(Expression<Func<Trip, bool>> criteria):base(criteria)
     {
-        public TripSpecification(Expression<Func<Trip, bool>> criteria):base(criteria)
-        {
-        }
     }
 }

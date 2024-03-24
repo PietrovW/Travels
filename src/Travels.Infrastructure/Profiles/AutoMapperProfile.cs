@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
-using Travels.Core.Entities;
+using Travels.Application.Entities;
 using Travels.Infrastructure.DTO;
 
-namespace Travels.Infrastructure.Profiles
+namespace Travels.Infrastructure.Profiles;
+
+public class AutoMapperProfile : Profile
 {
-    public class AutoMapperProfile : Profile
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<Stops, StopsDTO>();
-            CreateMap<Travel, TravelDTO>();
-            CreateMap<Trip, TripDTO>();
-        }
+        CreateMap<Stops, StopsDTO>();
+        CreateMap<Travel, TravelDTO>();
+        CreateMap<Trip, TripDTO>();
     }
 }

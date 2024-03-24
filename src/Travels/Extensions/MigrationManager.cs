@@ -1,34 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Travels.Infrastructure.Data;
 
-namespace Travels.Api.Extensions
+namespace Travels.Api.Extensions;
+//    CreateHostBuilder(args).Build().MigrateDatabase().Run();
+public static class MigrationManager
 {
-    public static class MigrationManager
+    public static IHost MigrateDatabase(this IHost host)
     {
-        public static IHost MigrateDatabase(this IHost host)
+        using (var scope = host.Services.CreateScope())
         {
-            using (var scope = host.Services.CreateScope())
-            {
-                using (var appContext = scope.ServiceProvider.GetRequiredService<TravelsContext>())
+            using var appContext = scope.ServiceProvider.GetRequiredService<TravelsContext>();
+                try
                 {
-                    try
-                    {
-                        appContext.Database.EnsureCreated();
-                    }
-                    catch (Exception ex)
-                    {
-                        //Log errors or do anything you think it's needed
-                        throw;
-                    }
+                    appContext.Database.EnsureCreated();
                 }
-            }
-            return host;
+                catch (Exception ex)
+                {
+                    //Log errors or do anything you think it's needed
+                    throw;
+                }
         }
+        return host;
     }
 }

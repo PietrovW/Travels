@@ -1,14 +1,12 @@
-﻿using Travels.Core.Exceptions;
+﻿using Travels.Application.Exceptions;
+namespace Travels.Infrastructure.Exceptions;
 
-namespace Travels.Infrastructure.Exceptions
+public class InfrastructureException : BaseException
 {
-    public class InfrastructureException : BaseException
+
+    public InfrastructureException(string message, params object[] args)
+        :base(message: message,args: args)
     {
 
-        public InfrastructureException(string message, params object[] args)
-            :base(message: message,args: args)
-        {
-
-        }
     }
 }

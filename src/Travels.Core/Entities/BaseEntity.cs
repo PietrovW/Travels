@@ -1,19 +1,17 @@
 ﻿using System;
 
-namespace Travels.Core.Entities
+namespace Travels.Application.Entities;
+
+public abstract class BaseEntity
 {
-    public abstract class BaseEntity
+    public long Id { get; protected set; }
+
+    public DateTimeOffset Created { get; protected set; }
+
+    public BaseEntity( 
+        DateTimeOffset created)
     {
-        public long Id { get; protected set; }
-
-        public DateTimeOffset Created { get; protected set; }
-
-        public BaseEntity( 
-            DateTimeOffset created)
-        {
-            
-            Created = created;
-        }
-        private BaseEntity() { }
+        Created = created;
     }
+    private BaseEntity() { }
 }

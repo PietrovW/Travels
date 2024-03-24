@@ -1,17 +1,16 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Wolverine;
 
-namespace Travels.Api.Controllers.Base
+namespace Travels.Api.Controllers.Base;
+
+[ApiController]
+[Route("api/[controller]")]
+public abstract class TravelsControllerBase : Controller
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public abstract class TravelsControllerBase : Controller
-    {
-        internal readonly IMediator _mediator;
+    internal readonly IMessageBus _bus;
 
-        public TravelsControllerBase(IMediator mediator):base()
-        {
-            _mediator = mediator;
-        }
+    public TravelsControllerBase(IMessageBus bus):base()
+    {
+        _bus = bus;
     }
 }

@@ -1,25 +1,24 @@
 ﻿using System;
-using Travels.Core.Interfaces;
+using Travels.Application.Interfaces;
 
-namespace Travels.Core.Entities
+namespace Travels.Application.Entities;
+
+public class Stops : BaseEntity, IAggregateRoot
 {
-    public class Stops : BaseEntity, IAggregateRoot
+    public string Name { get; private set; }
+    public long Latitude { get; private set; }
+    public long Longitude { get; private set; }
+    public int Order { get; private set; }
+    public Stops(long id,
+         DateTimeOffset created,
+         string name,
+         long latitude,
+         long longitude,
+         int order) : base(created)
     {
-        public string Name { get; private set; }
-        public long Latitude { get; private set; }
-        public long Longitude { get; private set; }
-        public int Order { get; private set; }
-        public Stops(long id,
-             DateTimeOffset created,
-             string name,
-             long latitude,
-             long longitude,
-             int order) : base(created)
-        {
-            Name = name;
-            Latitude = latitude;
-            Longitude = longitude;
-            Order = order;
-        }
+        Name = name;
+        Latitude = latitude;
+        Longitude = longitude;
+        Order = order;
     }
 }

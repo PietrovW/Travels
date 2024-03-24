@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
-using Travels.Core.Queries;
+using Travels.Domain.Travel.V1.Queries;
 
-namespace Travels.Api.Validators.v1_0
+namespace Travels.Api.Validators.v1_0;
+
+public class GetByIdTravelsQuerieValidator : AbstractValidator<GetByIdTravelsQuerie>
 {
-    public class GetByIdTravelsQuerieValidator : AbstractValidator<GetByIdTravelsQuerie>
+    public GetByIdTravelsQuerieValidator()
     {
-        public GetByIdTravelsQuerieValidator()
-        {
-            RuleFor(travel => travel.Id).NotNull();
-        }
+        RuleFor(travel => travel.Id).NotNull();
     }
 }

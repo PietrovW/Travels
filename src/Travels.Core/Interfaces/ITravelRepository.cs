@@ -1,8 +1,7 @@
-﻿using Travels.Core.Entities;
+﻿using Travels.Application.Entities;
 
-namespace Travels.Core.Interfaces
+namespace Travels.Application.Interfaces;
+
+public interface ITravelRepository : IAsyncRepository<Travel>
 {
-    public interface ITravelRepository : IAsyncRepository<Travel>
-    {
-    }
 }

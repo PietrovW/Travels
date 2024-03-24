@@ -1,6 +1,5 @@
-﻿namespace Travels.Core.Interfaces
+﻿namespace Travels.Application.Interfaces;
+
+public interface IAggregateRoot
 {
-    public interface IAggregateRoot
-    {
-    }
 }

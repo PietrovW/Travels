@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6027ED51-C090-4C65-AE50-63E584C2EC14}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Travels.Api", "src\Travels\Travels.Api.csproj", "{78480718-CA76-4C19-8A88-82351D0BBE39}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Travels.Core", "src\Travels.Core\Travels.Core.csproj", "{D8E5445F-3584-4D53-BA54-DD875EE850F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Travels.Application", "src\Travels.Core\Travels.Application.csproj", "{D8E5445F-3584-4D53-BA54-DD875EE850F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Travels.Infrastructure", "src\Travels.Infrastructure\Travels.Infrastructure.csproj", "{6901C3F1-A884-43A0-87D3-E71CF2632914}"
 EndProject
@@ -15,9 +15,11 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B677FA44-DB46-4554-ADBA-5F0A47954779}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travels.Core.Tests", "tests\Travels.Core.Tests\Travels.Core.Tests.csproj", "{2D90BE6F-4CE8-4442-9DB5-0A6976CB74BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Travels.Core.Tests", "tests\Travels.Core.Tests\Travels.Core.Tests.csproj", "{2D90BE6F-4CE8-4442-9DB5-0A6976CB74BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travels.Infrastructure.Tests", "tests\Travels.Infrastructure.Tests\Travels.Infrastructure.Tests.csproj", "{150A54CC-E2D3-4381-88F4-28DF1415ADD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Travels.Infrastructure.Tests", "tests\Travels.Infrastructure.Tests\Travels.Infrastructure.Tests.csproj", "{150A54CC-E2D3-4381-88F4-28DF1415ADD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travels.Domain", "src\Travels.Domain\Travels.Domain.csproj", "{483FB6D1-4083-4432-AA1B-AB9F4CA5CC58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{150A54CC-E2D3-4381-88F4-28DF1415ADD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{150A54CC-E2D3-4381-88F4-28DF1415ADD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{150A54CC-E2D3-4381-88F4-28DF1415ADD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{483FB6D1-4083-4432-AA1B-AB9F4CA5CC58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{483FB6D1-4083-4432-AA1B-AB9F4CA5CC58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{483FB6D1-4083-4432-AA1B-AB9F4CA5CC58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{483FB6D1-4083-4432-AA1B-AB9F4CA5CC58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{6901C3F1-A884-43A0-87D3-E71CF2632914} = {6027ED51-C090-4C65-AE50-63E584C2EC14}
 		{2D90BE6F-4CE8-4442-9DB5-0A6976CB74BF} = {B677FA44-DB46-4554-ADBA-5F0A47954779}
 		{150A54CC-E2D3-4381-88F4-28DF1415ADD6} = {B677FA44-DB46-4554-ADBA-5F0A47954779}
+		{483FB6D1-4083-4432-AA1B-AB9F4CA5CC58} = {6027ED51-C090-4C65-AE50-63E584C2EC14}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8778F381-C7E8-4F32-A0D5-F96CBA6F9CE6}

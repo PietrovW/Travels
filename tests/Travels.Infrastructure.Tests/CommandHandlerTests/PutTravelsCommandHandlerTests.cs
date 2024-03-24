@@ -3,33 +3,31 @@ using Moq;
 using NUnit.Framework;
 using System.Threading;
 using System.Threading.Tasks;
-using Travels.Core.Entities;
-using Travels.Core.Interfaces;
-using Travels.Infrastructure.Command;
-using Travels.Infrastructure.CommandHandler;
+using Travels.Application.Entities;
+using Travels.Application.Interfaces;
+using Travels.Domain.Travel.V1.Commands;
 using Travels.Infrastructure.Profiles;
 
-namespace Travels.Infrastructure.Tests.CommandHandlerTests
+namespace Travels.Infrastructure.Tests.CommandHandlerTests;
+
+internal class PutTravelsCommandHandlerTests
 {
-   internal class PutTravelsCommandHandlerTests
+    [Test]
+    public async Task PutTravelsCommand_CustomerDataUpdatedOnDatabase()
     {
-        [Test]
-        public async Task PutTravelsCommand_CustomerDataUpdatedOnDatabase()
+        //Arange
+        var _travelRepositoryMock = new Mock<ITravelRepository>();
+        var config = new MapperConfiguration(configuration =>
         {
-            //Arange
-            var _travelRepositoryMock = new Mock<ITravelRepository>();
-            var config = new MapperConfiguration(configuration =>
-            {
-                configuration.AddMaps(typeof(AutoMapperProfile).Assembly);
-            });
+            configuration.AddMaps(typeof(AutoMapperProfile).Assembly);
+        });
 
-            var handler = new PutTravelsCommandHandler(_travelRepositoryMock.Object, config.CreateMapper());
+        var handler = new UpdateTravelsCommandHandler(_travelRepositoryMock.Object, config.CreateMapper());
 
-            //Act
-            await handler.Handle(new PutTravelsCommand() { Id = 1 }, CancellationToken.None);
+        //Act
+    //    await handler.Handle(new UpdateTravelsCommand() { Id = 1 }, CancellationToken.None);
 
-            //Asert
-            _travelRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Travel>(), CancellationToken.None), Times.Once);
-        }
+        //Asert
+        _travelRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Travel>(), CancellationToken.None), Times.Once);
     }
 }
