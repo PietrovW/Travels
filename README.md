@@ -12,7 +12,7 @@ DDD learning project
 ## General info
 Sample microservice application
 
-
+Command to create database migration
 ```
 dotnet ef migrations add InitialCreate
 ```
