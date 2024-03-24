@@ -12,6 +12,11 @@ DDD learning project
 ## General info
 Sample microservice application
 
+
+```
+dotnet ef migrations add InitialCreate
+```
+
 ## Technologies
  * WolverineFx
  * AutoMapper
