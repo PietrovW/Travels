@@ -11,6 +11,8 @@ DDD learning project
 
 ## General info
 
+
+## Setup
 Command to create database migration
 ```
 dotnet ef migrations add InitialCreate
