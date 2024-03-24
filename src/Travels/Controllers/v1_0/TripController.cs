@@ -12,6 +12,8 @@ using Wolverine;
 namespace Travels.Api.Controllers.v1_0;
 
 [ApiVersion("1.0")]
+[ApiExplorerSettings(GroupName = "V1")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class TripController : TravelsControllerBase
 {
     public TripController(IMessageBus bus) : base(bus)

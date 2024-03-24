@@ -1,14 +1,15 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["src/Travels/Travels.Api.csproj", "src/Travels/"]
 COPY ["src/Travels.Infrastructure/Travels.Infrastructure.csproj", "src/Travels.Infrastructure/"]
+COPY ["src/Travels.Domain/Travels.Domain.csproj", "src/Travels.Domain/"]
 COPY ["src/Travels.Core/Travels.Core.csproj", "src/Travels.Core/"]
 RUN dotnet restore "src/Travels/Travels.Api.csproj"
 COPY . .

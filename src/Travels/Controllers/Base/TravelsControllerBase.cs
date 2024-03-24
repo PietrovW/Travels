@@ -4,7 +4,6 @@ using Wolverine;
 namespace Travels.Api.Controllers.Base;
 
 [ApiController]
-[Route("api/[controller]")]
 public abstract class TravelsControllerBase : Controller
 {
     internal readonly IMessageBus _bus;

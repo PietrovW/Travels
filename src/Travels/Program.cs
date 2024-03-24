@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,38 +15,47 @@ using Travels.Infrastructure.Data;
 using Travels.Infrastructure.Extensions;
 using Wolverine;
 using Wolverine.FluentValidation;
-var builder = WebApplication.CreateSlimBuilder(args);
 
-builder.Configuration.AddEnvironmentVariables(prefix: "Travels_");
-ConfigurationManager configuration = builder.Configuration;
-builder.Services.AddDbContext<TravelsContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Travels.Api")));
-builder.Services.AddOptions();
-builder.Services.ConfigureApiServices();
-builder.Services.ConfigureInfrastructureServices();
+var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseWolverine(options =>
 {
     options.Discovery.IncludeAssembly(typeof(Travels.Application.Extension).Assembly);
     options.Discovery.IncludeAssembly(typeof(Travels.Infrastructure.Extension).Assembly);
     options.Discovery.IncludeAssembly(typeof(Travels.Domain.Extension).Assembly);
-
     options.UseFluentValidation();
     options.UseFluentValidation(RegistrationBehavior.ExplicitRegistration);
 });
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ConfigureHttpsDefaults(listenOptions =>
+    {
+        listenOptions.ClientCertificateMode = ClientCertificateMode.AllowCertificate;
+    });
+});
+builder.Configuration.AddEnvironmentVariables(prefix: "Travels_");
+builder.Services.AddApiVersioning(setup =>
+{
+    setup.DefaultApiVersion = new ApiVersion(1, 0);
+    setup.AssumeDefaultVersionWhenUnspecified = true;
+    setup.ReportApiVersions = true;
+});
+ConfigurationManager configuration = builder.Configuration;
+builder.Services.AddDbContext<TravelsContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Travels.Api")));
+builder.Services.ConfigureApiServices();
+builder.Services.ConfigureInfrastructureServices();
+
 var app = builder.Build();
+app.MapControllers();
+app.UseErrorHandler();
+app.UseHttpsRedirection();
+app.UseRouting();
+
 app.UseMiddleware<ValidationExceptionMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+    app.ConfigureApplicationSwagger();
 }
-app.UseErrorHandler();
-app.ConfigureApplicationSwagger();
-//.MigrateDatabase();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var db = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MercuriusContext>>();
-//    var datebase = await db.CreateDbContextAsync();
-//    await MercuriusContext.InitializeAsync(datebase);
-//}
 return await app.RunOaktonCommands(args);
