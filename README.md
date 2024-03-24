@@ -17,6 +17,7 @@ Command to create database migration
 dotnet ef migrations add InitialCreate
 ```
 
+Comman database update
 ```
 dotnet ef database update
 ```
