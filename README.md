@@ -1,5 +1,5 @@
 # Travels
-
+Application tested for API technology
 DDD learning project
 
 ## Table of contents
@@ -10,8 +10,21 @@ DDD learning project
 
 
 ## General info
-Sample microservice application
+
+
+## Setup
+Command to create database migration
+```
+dotnet ef migrations add InitialCreate
+```
+
+Comman database update
+```
+dotnet ef database update
+```
 
 ## Technologies
-  FluentValidation
-  MediatR
+ * WolverineFx
+ * AutoMapper
+ * Microsoft.EntityFrameworkCore
+ * Npgsql.EntityFrameworkCore.PostgreSQL
