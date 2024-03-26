@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading;
@@ -11,10 +12,9 @@ using Travels.Infrastructure.DTO;
 using Wolverine;
 
 namespace Travels.Api.Controllers.v1_0;
-
-//[ApiVersion("1.0")]
-[ApiExplorerSettings(GroupName = "V1")]
+[ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
 public class StopsController : TravelsControllerBase
 {
     public StopsController(IMessageBus bus) : base(bus)
@@ -36,14 +36,14 @@ public class StopsController : TravelsControllerBase
         return Ok(customers);
     }
 
-    [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(500)]
+    //[HttpGet()]
+    //[ProducesResponseType(StatusCodes.Status200OK)]
+    //[ProducesResponseType(StatusCodes.Status404NotFound)]
+    //[ProducesResponseType(500)]
     public async Task<IActionResult> GetByIdAsync([FromQuery] GetByIdTravelsQuerie querie, CancellationToken cancellationToken)
     {
         TravelDTO customer = await this._bus.InvokeAsync<TravelDTO>(new GetByIdTravelsQuerie() { Id = querie.Id }, cancellation: cancellationToken);
-        if (customer!=null)
+        if (customer != null)
         {
             return NotFound();
         }

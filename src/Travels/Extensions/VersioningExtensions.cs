@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Travels.Api.Controllers.v1_0;
 
@@ -11,16 +10,21 @@ public static class VersioningExtensions
     {
         //services.AddApiVersioning(options =>
         //{
-        //    options.DefaultApiVersion = new ApiVersion(1, 0);
-        //    options.AssumeDefaultVersionWhenUnspecified = true;
+        //    options.DefaultApiVersion = new ApiVersion(1);
         //    options.ReportApiVersions = true;
+        //    options.AssumeDefaultVersionWhenUnspecified = true;
         //    options.ApiVersionReader = ApiVersionReader.Combine(
+        //        new UrlSegmentApiVersionReader(),
         //        new QueryStringApiVersionReader("api-version"),
-        //        new HeaderApiVersionReader("api-version"));
-        //    options.Conventions.Controller<StopsController>().HasApiVersion(new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0));
-        //    options.Conventions.Controller<TravelController>().HasApiVersion(new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0));
-        //    options.Conventions.Controller<TripController>().HasApiVersion(new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0));
-        //});
+        //        new HeaderApiVersionReader("X-Version"),
+        //        new MediaTypeApiVersionReader("ver"));
+        // })
+        services.AddApiVersioning()
+    .AddApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'VVV";
+            options.SubstituteApiVersionInUrl = true;
+        });
         return services;
     }
 }

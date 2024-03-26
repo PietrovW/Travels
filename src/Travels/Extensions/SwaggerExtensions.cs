@@ -12,8 +12,8 @@ public static class SwaggerExtensions
     {
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API - V1", Version = "v1" });
-            options.SwaggerDoc("v2", new OpenApiInfo { Title = "My API - V2", Version = "v2" });
+            options.SwaggerDoc("v1", new OpenApiInfo() { Title = "API V1", Version = "v1.0" });
+            options.SwaggerDoc("v2", new OpenApiInfo() { Title = "API V2", Version = "v2.0" });
             options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             options.CustomSchemaIds(x => x.FullName);
         });
@@ -26,19 +26,19 @@ public static class SwaggerExtensions
         //{
            // u.RouteTemplate = "swagger/{documentName}/swagger.json";
        // });
-        app.UseSwaggerUI(c =>
+        app.UseSwaggerUI(options =>
         {
-           // c.RoutePrefix = "swagger";
-            c.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "Your API Title or Version 1");
-            c.SwaggerEndpoint(url: "/swagger/v2/swagger.json", name: "Your API Title or Version 2");
+            // c.RoutePrefix = "swagger";
+            ////options.SwaggerEndpoint($"/swagger/V1/swagger.json", "V1.0");
+            ////options.SwaggerEndpoint($"/swagger/V2/swagger.json", "V2.0");
         });
-        app.UseReDoc(c =>
-        {
-            c.PathInMiddlePanel();
-            c.OnlyRequiredInSamples();
-            c.DocumentTitle = "REDOC API Documentation";
-            c.SpecUrl = "/swagger/v1/swagger.json";
-        });
+        //app.UseReDoc(c =>
+        //{
+        //    c.PathInMiddlePanel();
+        //    c.OnlyRequiredInSamples();
+        //    c.DocumentTitle = "REDOC API Documentation";
+        //    c.SpecUrl = "/swagger/v1/swagger.json";
+        //});
         return app;
     }
 }

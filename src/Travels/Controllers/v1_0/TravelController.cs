@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net.Mime;
@@ -12,9 +13,9 @@ using Wolverine;
 
 namespace Travels.Api.Controllers.v1_0;
 
+//[ApiController]
+//[Route("api/[controller]")]
 //[ApiVersion("1.0")]
-[ApiExplorerSettings(GroupName = "V1")]
-[Route("api/v{version:apiVersion}/[controller]")]
 public class TravelController : TravelsControllerBase
 {
     public TravelController(IMessageBus bus) : base(bus)

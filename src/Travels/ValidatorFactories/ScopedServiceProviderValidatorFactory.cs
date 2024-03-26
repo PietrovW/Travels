@@ -3,34 +3,33 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics;
 
-namespace Travels.Api.ValidatorFactories
+namespace Travels.Api.ValidatorFactories;
+
+public class ScopedServiceProviderValidatorFactory : ValidatorFactoryBase
 {
-    public class ScopedServiceProviderValidatorFactory : ValidatorFactoryBase
+    private readonly IServiceProvider _serviceProvider;
+
+    /// <summary>
+    /// Creates new instance of <see cref="ScopedServiceProviderValidatorFactory"/>.
+    /// </summary>
+    /// <param name="serviceProvider"><see cref="IServiceProvider"/>.</param>
+    public ScopedServiceProviderValidatorFactory(IServiceProvider serviceProvider)
     {
-        private readonly IServiceProvider _serviceProvider;
+        _serviceProvider = serviceProvider;
+    }
 
-        /// <summary>
-        /// Creates new instance of <see cref="ScopedServiceProviderValidatorFactory"/>.
-        /// </summary>
-        /// <param name="serviceProvider"><see cref="IServiceProvider"/>.</param>
-        public ScopedServiceProviderValidatorFactory(IServiceProvider serviceProvider)
+    /// <inheritdoc />
+    [DebuggerStepThrough]
+    public override IValidator CreateInstance(Type validatorType)
+    {
+        try
         {
-            _serviceProvider = serviceProvider;
+            return _serviceProvider.GetService(validatorType) as IValidator;
         }
-
-        /// <inheritdoc />
-        [DebuggerStepThrough]
-        public override IValidator CreateInstance(Type validatorType)
+        catch (InvalidOperationException)
         {
-            try
-            {
-                return _serviceProvider.GetService(validatorType) as IValidator;
-            }
-            catch (InvalidOperationException)
-            {
-                using (_serviceProvider.CreateScope())
-                    return _serviceProvider.CreateScope().ServiceProvider.GetService(validatorType) as IValidator;
-            }
+            using (_serviceProvider.CreateScope())
+                return _serviceProvider.CreateScope().ServiceProvider.GetService(validatorType) as IValidator;
         }
     }
 }
