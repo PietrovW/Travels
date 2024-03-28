@@ -19,12 +19,12 @@ public static class VersioningExtensions
         //        new HeaderApiVersionReader("X-Version"),
         //        new MediaTypeApiVersionReader("ver"));
         // })
-        services.AddApiVersioning()
-    .AddApiExplorer(options =>
-        {
-            options.GroupNameFormat = "'v'VVV";
-            options.SubstituteApiVersionInUrl = true;
-        });
+    //    services.AddApiVersioning()
+    //.AddApiExplorer(options =>
+    //    {
+    //        options.GroupNameFormat = "'v'VVV";
+    //        options.SubstituteApiVersionInUrl = true;
+    //    });
         return services;
     }
 }

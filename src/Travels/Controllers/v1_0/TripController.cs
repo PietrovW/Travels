@@ -12,8 +12,6 @@ using Wolverine;
 
 namespace Travels.Api.Controllers.v1_0;
 
-[ApiController]
-[Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class TripController : TravelsControllerBase
 {
@@ -36,10 +34,10 @@ public class TripController : TravelsControllerBase
     }
 
 
-    //[HttpGet()]
-    //[ProducesResponseType(StatusCodes.Status200OK)]
-    //[ProducesResponseType(StatusCodes.Status404NotFound)]
-    //[ProducesResponseType(500)]
+    [HttpGet("{querie}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> GetByIdAsync([FromQuery] GetByIdTravelsQuerie querie, CancellationToken cancellationToken)
     {
         var customer = await this._bus.InvokeAsync<TravelDTO>(querie, cancellation: cancellationToken);
@@ -50,7 +48,7 @@ public class TripController : TravelsControllerBase
         return Ok(customer);
     }
 
-    [HttpPut()]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PutAsync([FromBody] PutTripCommand putTripCommand, CancellationToken cancellationToken)
@@ -72,7 +70,7 @@ public class TripController : TravelsControllerBase
         return CreatedAtAction(nameof(GetByIdAsync), new { id =1 }, creationTripCommand);
     }
 
-    [HttpDelete()]
+    [HttpDelete]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

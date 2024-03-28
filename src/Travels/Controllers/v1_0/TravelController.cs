@@ -13,9 +13,7 @@ using Wolverine;
 
 namespace Travels.Api.Controllers.v1_0;
 
-//[ApiController]
-//[Route("api/[controller]")]
-//[ApiVersion("1.0")]
+[ApiVersion("1.0")]
 public class TravelController : TravelsControllerBase
 {
     public TravelController(IMessageBus bus) : base(bus)
@@ -47,7 +45,7 @@ public class TravelController : TravelsControllerBase
         return Ok(customers);
     }
 
-    [HttpPut()]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -73,7 +71,7 @@ public class TravelController : TravelsControllerBase
         return CreatedAtAction(nameof(GetByIdAsync), new { id = result.Id }, invoiceModel);
     }
 
-    [HttpDelete()]
+    [HttpDelete]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete([FromQuery] DeleteTravelCommand deleteTravelCommand, CancellationToken cancellationToken)
