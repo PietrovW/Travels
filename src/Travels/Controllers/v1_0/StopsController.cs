@@ -14,6 +14,7 @@ using Wolverine;
 namespace Travels.Api.Controllers.v1_0;
 
 [ApiVersion("1.0")]
+[ApiExplorerSettings(GroupName = "V1")]
 public class StopsController : TravelsControllerBase
 {
     public StopsController(IMessageBus bus) : base(bus)

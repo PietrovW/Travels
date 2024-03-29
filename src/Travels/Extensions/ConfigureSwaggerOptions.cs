@@ -25,18 +25,18 @@ public class ConfigureSwaggerOptions
 
     public void Configure(SwaggerGenOptions options)
     {
-    //    foreach (var description in _provider.ApiVersionDescriptions)
-    //    {
-    //        options.SwaggerDoc(
-    //            description.GroupName,
-    //            CreateVersionInfo(description));
-    //    }
+        foreach (var description in _provider.ApiVersionDescriptions)
+        {
+            options.SwaggerDoc(
+                description.GroupName,
+                CreateVersionInfo(description));
+        }
     }
 
 
     public void Configure(string name, SwaggerGenOptions options)
     {
-        //Configure(options);
+       // Configure(options);
     }
 
     private OpenApiInfo CreateVersionInfo(

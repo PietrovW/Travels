@@ -8,8 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Oakton;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Travels.Api;
 using Travels.Api.Extensions;
 using Travels.Infrastructure;
@@ -42,8 +44,6 @@ builder.Services.AddApiVersioning(
           {
               options.DefaultApiVersion = new ApiVersion(1.0);
               options.AssumeDefaultVersionWhenUnspecified = true;
-              // reporting api versions will return the headers
-              // "api-supported-versions" and "api-deprecated-versions"
               options.ReportApiVersions = true;
               options.ApiVersionReader = ApiVersionReader.Combine(
                      new UrlSegmentApiVersionReader(),
@@ -55,18 +55,15 @@ builder.Services.AddApiVersioning(
                 setup.GroupNameFormat = "'v'VVV";
                 setup.SubstituteApiVersionInUrl = true;
             });
-// this enables binding ApiVersion as a endpoint callback parameter. if you don't use it, then
-// you should remove this configuration.
 // .EnableApiVersionBinding();
-builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+//builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 //builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 builder.Services.AddSwaggerGen(options =>
 {
-    //options.OperationFilter<SwaggerDefaultValues>();
-    options.SwaggerDoc("v1", new OpenApiInfo() { Title = "API V1", Version = "V1.0" });
-    //options.SwaggerDoc("V2", new OpenApiInfo() { Title = "API V2", Version = "V2.0" });
-    //options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-    //options.CustomSchemaIds(x => x.FullName);
+    options.SwaggerDoc("V1", new OpenApiInfo() { Title = "API V1", Version = "V1.0" });
+    options.SwaggerDoc("V2", new OpenApiInfo() { Title = "API V2", Version = "V2.0" });
+    options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+    options.CustomSchemaIds(x => x.FullName);
 }
 );
 
@@ -74,25 +71,17 @@ builder.Services.AddControllers();
 builder.Services.ConfigureInfrastructureServices();
 
 var app = builder.Build();
-//app.MapControllers();
-//app.UseErrorHandler();
-//app.UseHttpsRedirection();
-//app.UseRouting();
-
 //app.UseMiddleware<ValidationExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
-    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+    //var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
-        {
-            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
-                description.GroupName.ToUpperInvariant());
-        }
+        options.SwaggerEndpoint($"/swagger/V1/swagger.json", "V1.0");
+        options.SwaggerEndpoint($"/swagger/V2/swagger.json", "V2.0");
     });
 }
 
