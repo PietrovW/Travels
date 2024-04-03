@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Travels.Api.Controllers.Base;
@@ -14,7 +15,6 @@ using Wolverine;
 namespace Travels.Api.Controllers.v1_0;
 
 [ApiVersion("1.0")]
-[ApiExplorerSettings(GroupName = "V1")]
 public class StopsController : TravelsControllerBase
 {
     public StopsController(IMessageBus bus) : base(bus)
@@ -23,6 +23,7 @@ public class StopsController : TravelsControllerBase
     }
 
     [HttpGet]
+    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -37,9 +38,10 @@ public class StopsController : TravelsControllerBase
     }
 
     [HttpGet("{querie}")]
+    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(500)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetByIdAsync([FromQuery] GetByIdTravelsQuerie querie, CancellationToken cancellationToken)
     {
         TravelDTO customer = await this._bus.InvokeAsync<TravelDTO>(new GetByIdTravelsQuerie() { Id = querie.Id }, cancellation: cancellationToken);
@@ -51,8 +53,10 @@ public class StopsController : TravelsControllerBase
     }
 
     [HttpPut]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> PutAsync(PutStopsCommand todoItem, CancellationToken cancellationToken)
     {
         if (todoItem.Id != todoItem.Id)
@@ -64,8 +68,10 @@ public class StopsController : TravelsControllerBase
     }
 
     [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> PostAsync([FromBody] CreationStopsCommand invoiceModel, CancellationToken cancellationToken)
     {
         var result = await this._bus.InvokeAsync<long>(invoiceModel, cancellation: cancellationToken);
@@ -73,6 +79,7 @@ public class StopsController : TravelsControllerBase
     }
 
     [HttpDelete]
+    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -3,16 +3,11 @@ using Asp.Versioning;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Text;
-using System;
 using Microsoft.Extensions.DependencyInjection;
-using Wolverine;
-using System.Linq;
 
 namespace Travels.Api.Extensions;
 
-public class ConfigureSwaggerOptions
-    : IConfigureNamedOptions<SwaggerGenOptions>
+internal sealed class ConfigureSwaggerOptions: IConfigureOptions<SwaggerGenOptions>
 {
     private readonly IApiVersionDescriptionProvider _provider;
 
@@ -21,7 +16,6 @@ public class ConfigureSwaggerOptions
     {
         _provider = provider;
     }
-
 
     public void Configure(SwaggerGenOptions options)
     {
@@ -36,7 +30,7 @@ public class ConfigureSwaggerOptions
 
     public void Configure(string name, SwaggerGenOptions options)
     {
-       // Configure(options);
+        Configure(options);
     }
 
     private OpenApiInfo CreateVersionInfo(
@@ -44,7 +38,7 @@ public class ConfigureSwaggerOptions
     {
         var info = new OpenApiInfo()
         {
-            Title = ".NET Core (.NET 6) Web API",
+            Title = "Web API",
             Version = desc.ApiVersion.ToString()
         };
 

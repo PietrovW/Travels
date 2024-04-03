@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Travels.Api.Controllers.Base;
@@ -13,7 +14,6 @@ using Wolverine;
 namespace Travels.Api.Controllers.v1_0;
 
 [ApiVersion("1.0")]
-[ApiExplorerSettings(GroupName = "V1")]
 public class TripController : TravelsControllerBase
 {
     public TripController(IMessageBus bus) : base(bus)
@@ -22,6 +22,7 @@ public class TripController : TravelsControllerBase
     }
 
     [HttpGet]
+    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
@@ -36,6 +37,7 @@ public class TripController : TravelsControllerBase
 
 
     [HttpGet("{querie}")]
+    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(500)]
@@ -50,6 +52,7 @@ public class TripController : TravelsControllerBase
     }
 
     [HttpPut]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PutAsync([FromBody] PutTripCommand putTripCommand, CancellationToken cancellationToken)
@@ -63,6 +66,7 @@ public class TripController : TravelsControllerBase
     }
 
     [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> PostAsync([FromBody] CreationTripCommand creationTripCommand, CancellationToken cancellationToken)

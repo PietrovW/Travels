@@ -14,7 +14,6 @@ using Wolverine;
 namespace Travels.Api.Controllers.v1_0;
 
 [ApiVersion("1.0")]
-[ApiExplorerSettings(GroupName = "V1")]
 public class TravelController : TravelsControllerBase
 {
     public TravelController(IMessageBus bus) : base(bus)
@@ -23,6 +22,7 @@ public class TravelController : TravelsControllerBase
     }
 
     [HttpGet]
+    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -37,6 +37,7 @@ public class TravelController : TravelsControllerBase
     }
 
     [HttpGet("{id}")]
+    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -47,6 +48,7 @@ public class TravelController : TravelsControllerBase
     }
 
     [HttpPut]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

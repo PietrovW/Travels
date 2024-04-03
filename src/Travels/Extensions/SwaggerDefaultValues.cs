@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace Travels.Api.Extensions;
 
-public class SwaggerDefaultValues : IOperationFilter
+internal sealed class SwaggerDefaultValues : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
